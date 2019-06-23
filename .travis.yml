@@ -2,3 +2,10 @@ language: node_js
 node_js:
   - "7"
 script: "cd microservice-banner-rest && npm install"
+script: "cd microservice-benefits-rest && npm install"
+script: "cd microservice-calendar-rest && npm install"
+script: "cd microservice-category-rest && npm install"
+script: "cd microservice-mail-relay-rest && npm install"
+script: "cd microservice-newsletter-rest && npm install"
+script: "microservice-postalcode-rest && npm install"
+script: "microservice-supplier-rest && npm install"

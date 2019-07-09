@@ -2,10 +2,14 @@ var app = require('express')();
 var http = require('http').Server(app);
 var Consul = require('consul');
 
-var consulUrl = "htp://127.0.0.1";
-console.log('consulUrl: '+ consulUrl);
+const port = process.env.CONSUL_URL;
+var consulUrl = "127.0.0.1";
+if (port != null) {
+    consulUrl = process.env.CONSUL_URL;
+}
+console.log('consulUrl: ' + consulUrl);
 
-app.get('/', function(req, res){
+app.get('/', function (req, res) {
 
     var objToJson = {
         purpose: "Mail Relay"
@@ -14,7 +18,7 @@ app.get('/', function(req, res){
     res.send(objToJson);
 });
 
-app.get('/mailrelay', function(req, res){
+app.get('/mailrelay', function (req, res) {
 
     var objToJson = {
         user: "Mail-relay Endpoint"
@@ -23,7 +27,7 @@ app.get('/mailrelay', function(req, res){
     res.send(objToJson);
 });
 
-http.listen(10010, function(){
+http.listen(10010, function () {
     console.log('Listening on *:10010');
     console.log('http://localhost:10010/');
     console.log('http://localhost:10010/mailrelay');
@@ -42,40 +46,39 @@ var check = {
     notes: 'This is an example check.'
 };
 
-consul.agent.service.register(service, function(err) {
+consul.agent.service.register(service, function (err) {
     if (err) throw err;
 });
 
-consul.health.service(service, function(err, result) {
+consul.health.service(service, function (err, result) {
     if (err) throw err;
 });
 
-consul.agent.check.register(check, function(err) {
+consul.agent.check.register(check, function (err) {
     if (err) throw err;
 });
 
-consul.agent.check.deregister(service, function(err) {
+consul.agent.check.deregister(service, function (err) {
     if (err) throw err;
 });
 
-consul.agent.check.pass(service, function(err) {
+consul.agent.check.pass(service, function (err) {
     if (err) throw err;
 });
 
 var kvValue = {
-    "version":"1.0",
-    "dependencies":[
-        {
-            "name":"microservice-user-manager-rest",
-            "version":"1.0"
+    "version": "1.0",
+    "dependencies": [{
+            "name": "microservice-user-manager-rest",
+            "version": "1.0"
         },
         {
-            "name":"microservice-access-manager-rest",
-            "version":"1.0"
+            "name": "microservice-access-manager-rest",
+            "version": "1.0"
         }
     ]
 }
 
-consul.kv.set(service, JSON.stringify(kvValue), function(err, result) {
+consul.kv.set(service, JSON.stringify(kvValue), function (err, result) {
     if (err) throw err;
 });

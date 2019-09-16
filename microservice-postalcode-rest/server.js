@@ -7,6 +7,7 @@ var consulUrl = "127.0.0.1";
 if (port != null) {
     consulUrl = process.env.CONSUL_URL;
 }
+
 console.log('consulUrl: ' + consulUrl);
 
 app.get('/', function (req, res) {

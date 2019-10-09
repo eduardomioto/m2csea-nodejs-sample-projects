@@ -1,4 +1,7 @@
-var app = require('express')();
+const express = require('express')
+const app = express();
+const responseTime = require('express-response-time')
+
 var http = require('http').Server(app);
 var Consul = require('consul');
 
@@ -9,6 +12,37 @@ if (port != null) {
 }
 
 console.log('consulUrl: ' + consulUrl);
+var service = "microservice-benefits-rest";
+
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+    host: 'localhost',
+    port: '3306',
+    user: 'root',
+    password: 'admin',
+    database: 'm2csea-metrics'
+});
+
+function saveMetrics(microservice, responseTime) {
+    connection.connect();
+
+    var query = "INSERT INTO response_time (microservice, response_time) VALUES ('"
+    query += microservice;
+    query += "',";
+    query += responseTime;
+    query += ")";
+
+    connection.query(query, function (err, rows, fields) {
+        if (err) throw err;
+        connection.end();
+    });
+
+}
+
+app.use(responseTime((methond, url, time) => {
+    saveMetrics(service, time);
+    console.log(methond + " " + url + " " + time)
+}))
 
 app.get('/', function (req, res) {
 
@@ -38,8 +72,6 @@ var consul = new Consul({
     host: consulUrl,
     port: 8500
 });
-
-var service = "microservice-benefits-rest";
 
 var check = {
     name: service,

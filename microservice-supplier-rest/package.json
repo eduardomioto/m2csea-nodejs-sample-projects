@@ -7,9 +7,13 @@
         "sonar": "node sonar-project.js"
     },
     "dependencies": {
+        "browser-process-hrtime": "^0.1.2",
         "consul": "0.29.0",
         "ejs": "^2.5.2",
-        "express": "^4.14.0",
+        "events": "^3.0.0",
+        "express": "^4.17.1",
+        "express-response-time": "0.0.6",
+        "mysql": "^2.17.1",
         "request": "^2.79.0",
         "zipkin": "^0.10.1"
     }

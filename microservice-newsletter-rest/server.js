@@ -53,7 +53,7 @@ app.get('/', function (req, res) {
     res.send(objToJson);
 });
 
-app.get('/newletter', function (req, res) {
+app.get('/newsletter', function (req, res) {
 
     var objToJson = {
         purpose: "Newsletter Endpoint"
@@ -65,7 +65,7 @@ app.get('/newletter', function (req, res) {
 http.listen(10011, function () {
     console.log('Listening on *:10011');
     console.log('http://localhost:10011/');
-    console.log('http://localhost:10011/newletter');
+    console.log('http://localhost:10011/newsletter');
 });
 
 var consul = new Consul({

@@ -14,31 +14,36 @@ console.log('consulUrl: ' + consulUrl);
 
 var mysql = require('mysql');
 var connection = mysql.createConnection({
-    host: 'localhost',
+    host: 'mysql',
     port: '3306',
     user: 'root',
     password: 'admin',
-    database: 'm2csea-metrics'
+    database: 'mc2sea-metrics   '
 });
 
 function saveMetrics(microservice, responseTime) {
     connection.connect();
 
-    var query = "INSERT INTO response_time (microservice, response_time) VALUES ('"
+    var query = "INSERT INTO response_time (microservice, response_time, dt_transaction) VALUES ('"
     query += microservice;
     query += "',";
     query += responseTime;
-    query += ")";
+    query += ", NOW())";
 
     connection.query(query, function (err, rows, fields) {
-        if (err) throw err;
+        if (err) 
+        console.log('this.sql', this.sql); //command/query
+        console.log(query);
+        console.log("ERROR");
+        console.log(err);
+        throw err;
         connection.end();
     });
 
 }
 
 app.use(responseTime((methond, url, time) => {
-    saveMetrics("microservice-banner-rest", time);
+    saveMetrics(service, time);
     console.log(methond + " " + url + " " + time)
 }))
 

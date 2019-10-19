@@ -18,7 +18,7 @@ var connection = mysql.createConnection({
     port: '3306',
     user: 'root',
     password: 'admin',
-    database: 'mc2sea-metrics   '
+    database: 'm2csea-metrics   '
 });
 
 function saveMetrics(microservice, responseTime) {

@@ -24,8 +24,7 @@ var connection = mysql.createConnection({
 });
 
 function saveMetrics(microservice, responseTime) {
-    connection.connect();
-
+    
     var query = "INSERT INTO response_time (microservice, response_time, dt_transaction) VALUES ('"
     query += microservice;
     query += "',";
@@ -38,8 +37,7 @@ function saveMetrics(microservice, responseTime) {
         console.log("[mysql error]",err);
     });
 
-    connection.end();
-
+    
 }
 
 app.use(responseTime((methond, url, time) => {

@@ -34,11 +34,10 @@ function saveMetrics(microservice, responseTime) {
 
     connection.query(query, function(err, result){
         console.log(err, result)
-        res.send(result)
     }).on('error', function(err) {
         console.log("[mysql error]",err);
     });
-    
+
     connection.end();
 
 }

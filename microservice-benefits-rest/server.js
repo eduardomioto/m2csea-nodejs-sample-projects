@@ -32,15 +32,14 @@ function saveMetrics(microservice, responseTime) {
     query += responseTime;
     query += ", NOW())";
 
-    connection.query(query, function (err, rows, fields) {
-        if (err) 
-        console.log('this.sql', this.sql); //command/query
-        console.log(query);
-        console.log("ERROR");
-        console.log(err);
-        throw err;
-        connection.end();
+    connection.query(query, function(err, result){
+        console.log(err, result)
+        res.send(result)
+    }).on('error', function(err) {
+        console.log("[mysql error]",err);
     });
+
+    connection.end();
 
 }
 

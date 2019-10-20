@@ -74,14 +74,24 @@ var consul = new Consul({
 });
 
 var service = "microservice-banner-rest";
+const CONSUL_ID = require('uuid').v4();
+var serviceCheck = {
+    name: service,
+    id:`service:${CONSUL_ID}`
+};
 
 var check = {
     name: service,
     ttl: '15s',
-    notes: 'This is an example check.'
+    notes: 'Healthcheck',
+    id: CONSUL_ID,
+    check:{
+        ttl: '10s',
+        deregister_critical_service_after: '5m'
+    }
 };
 
-consul.agent.service.register(service, function (err) {
+consul.agent.service.register(check, function (err) {
     if (err) throw err;
 });
 
@@ -93,15 +103,16 @@ consul.agent.check.register(check, function (err) {
     if (err) throw err;
 });
 
-consul.agent.check.deregister(service, function (err) {
+setInterval(() => {
+    consul.agent.check.pass(serviceCheck, err => {
+      if (err) throw new Error(err);
+      console.log('told Consul that we are healthy');
+    });
+  }, 5 * 1000);
+
+consul.agent.check.deregister(check, function (err) {
     if (err) throw err;
 });
-
-consul.agent.check.pass(service, function (err) {
-    if (err) throw err;
-});
-
-
 
 var kvValue = {
     "version": "1.0",

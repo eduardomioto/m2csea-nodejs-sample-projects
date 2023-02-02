@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: m2csea-nodejs-sample-projects
+  annotations:
+    github.com/project-slug: eduardomioto/m2csea-nodejs-sample-projects
+spec:
+  type: other
+  lifecycle: unknown
+  owner: m2csea

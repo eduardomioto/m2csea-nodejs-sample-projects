@@ -8,7 +8,7 @@
     },
     "dependencies": {
         "browser-process-hrtime": "^0.1.2",
-        "consul": "0.29.0",
+        "consul": "0.40.0",
         "ejs": "^2.5.2",
         "events": "^3.0.0",
         "express": "^4.17.1",
